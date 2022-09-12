@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import exportAsImage from "./exportAsImage";
+import exportAsImage from "../../lib/exportAsImage";
 import { DownloadButton } from "../parts/DownloadButton";
 
 export const EditArea = () => {
