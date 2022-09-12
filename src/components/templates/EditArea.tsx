@@ -1,28 +1,21 @@
 import { useRef, useState } from "react";
 import exportAsImage from "./exportAsImage";
+import { DownloadButton } from "../parts/DownloadButton";
 
 export const EditArea = () => {
-  const exportRef = useRef();
+  const exportRef:any = useRef();
   const [enableOverflow, setOverflow] = useState(true); // for demo purpose
   return (
     <>
-      <div className="w-full h-93 bg-yellow-200 py-7 parent">
-        <div ref={exportRef}>
-          <p className={enableOverflow ? "whitespace-nowrap" : ""}>
-            Quis blandit turpis cursus in hac habitasse. Commodo quis imperdiet
-            massa tincidunt nunc pulvinar sapien et ligula. Sit amet dictum sit
-            amet justo donec. Cursus mattis molestie a iaculis. Vel pretium
-            lectus quam id leo in vitae. Quam nulla porttitor massa id neque
-            aliquam vestibulum morbi blandit.
-          </p>
+      <div className="w-2/3 h-screen bg-blue-200 parent flex flex-col justify-center items-center">
+        <DownloadButton onClick={() => exportAsImage(exportRef.current, "virtual-background")}></DownloadButton>
+        <div ref={exportRef} className="w-5/6 border-8 border-yellow-900">
+          <img src="./bg.png" className="w-max z-0"></img>
         </div>
+        {/* <button onClick={() => setOverflow(!enableOverflow)}>
+          {enableOverflow ? "Disable Overflow" : "Enable Overflow"}
+        </button> */}
       </div>
-      <button onClick={() => exportAsImage(exportRef.current, "test")}>
-        Capture Image
-      </button>
-      <button onClick={() => setOverflow(!enableOverflow)}>
-        {enableOverflow ? "Disable Overflow" : "Enable Overflow"}
-      </button>
     </>
   );
 }
