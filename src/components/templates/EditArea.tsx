@@ -6,7 +6,7 @@ export const EditArea = () => {
   const exportRef: any = useRef();
 
   return (
-    <div className="w-2/3 h-screen bg-blue-200">
+    <div className="w-2/3 h-93">
       <div className="w-full flex justify-end">
         <DownloadButton
           onClick={() => {
@@ -14,7 +14,7 @@ export const EditArea = () => {
           }}
         />
       </div>
-      <div className="flex justify-center mt-20">
+      <div className="flex justify-center mt-10">
         <div
           ref={exportRef}
           id="target"

@@ -3,6 +3,7 @@ import { UploadButton } from "../parts/UploadButton";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Draggable from "react-draggable";
 import { useState } from "react";
+import { GetNFTButton } from "../parts/GetNFTButton";
 
 type Props = {
   images: File[];
@@ -34,7 +35,7 @@ export const UploadArea = (props: Props) => {
     setIsDragged(newIsDragged);
   };
 
-  const handleStop = (i: number) => {
+  const handleOnClickImage = (i: number) => {
     const target = document.getElementById("target");
     const image = document.getElementById(i.toString());
     if (image) {
@@ -49,15 +50,11 @@ export const UploadArea = (props: Props) => {
   };
 
   return (
-    <div className="w-1/3 h-screen bg-yellow-50 pb-7">
-      <div className="w-full h-93 bg-yellow-50 py-7 mx-4">
+    <div className="w-1/3 pb-7">
+      <div className="w-full h-93 t-4 border-14 border-yellow-500 bg-cover bg-[url('img/board.png')]">
         <div className="flex flex-wrap pl-4">
           {props.images.map((image, i) => (
-            <Draggable
-              onStart={() => {
-                handleStop(i);
-              }}
-            >
+            <Draggable>
               <div
                 id={i.toString()}
                 key={i}
@@ -67,41 +64,45 @@ export const UploadArea = (props: Props) => {
                     : "relative w-28 mr-8 mb-5"
                 }
               >
-                <div className="absolute">
-                  {!props.visible[i] ? (
-                    <IconButton
-                      className="absolute top-18 left-95"
-                      aria-label="delete image"
-                      onClick={() => handleOnRemoveImage(i)}
-                    >
-                      <CancelIcon />
-                    </IconButton>
-                  ) : null}
-                  <img
-                    className={
-                      props.visible[i] ? "w-full mt-10 z-10" : "w-full z-10"
-                    }
-                    src={URL.createObjectURL(image)}
-                  />
-                </div>
+                {!props.visible[i] ? (
+                  <IconButton
+                    className="absolute top-18 left-95"
+                    aria-label="delete image"
+                    onClick={() => handleOnRemoveImage(i)}
+                  >
+                    <CancelIcon />
+                  </IconButton>
+                ) : null}
+                <img
+                  className={
+                    props.visible[i] ? "w-full mt-10 z-10" : "w-full z-10"
+                  }
+                  onClick={() => {
+                    handleOnClickImage(i);
+                  }}
+                  src={URL.createObjectURL(image)}
+                />
               </div>
             </Draggable>
           ))}
         </div>
       </div>
-      <label htmlFor={inputId}>
-        <UploadButton />
-        <input
-          id={inputId}
-          className="hidden"
-          type="file"
-          multiple
-          accept="image/*,.png,.jpg,.jpeg,.gif"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            handleOnAddImage(e)
-          }
-        />
-      </label>
+      <div className="flex justify-center">
+        <label htmlFor={inputId}>
+          <UploadButton />
+          <input
+            id={inputId}
+            className="hidden"
+            type="file"
+            multiple
+            accept="image/*,.png,.jpg,.jpeg,.gif"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleOnAddImage(e)
+            }
+          />
+        </label>
+        <GetNFTButton />
+      </div>
     </div>
   );
 };
