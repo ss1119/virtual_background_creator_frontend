@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { Navigate } from "react-router-dom";
+import storage from "../../utils/storage";
 import { Header } from "../parts/Hearder";
 import { EditArea } from "../templates/EditArea";
 import { UploadArea } from "../templates/UploadArea";
 
 export const Home = () => {
-  return (
+  return storage.getToken() ? (
     <>
       <Header />
       <div className="flex">
@@ -12,5 +13,7 @@ export const Home = () => {
         <EditArea />
       </div>
     </>
+  ) : (
+    <Navigate to="/login" />
   );
 };

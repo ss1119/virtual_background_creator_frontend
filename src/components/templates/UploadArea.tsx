@@ -64,8 +64,6 @@ export const UploadArea = () => {
     });
   };
 
-  console.log(nftImages);
-
   return (
     <div className="w-1/3 pb-7">
       <div className="w-full h-93 t-4 border-14 border-yellow-500 bg-cover bg-[url('img/board.png')]">
