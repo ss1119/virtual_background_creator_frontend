@@ -5,7 +5,6 @@ type Props = {
 };
 
 export const GetNFTButton = (props: Props) => {
-  console.log(!storage.getToken());
   return (
     <div className="flex justify-center items-center">
       <button
