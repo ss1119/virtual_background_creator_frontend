@@ -14,7 +14,7 @@ export const UploadArea = (props: Props) => {
   const inputId = Math.random().toString(32).substring(2);
   const [images, setImages] = useState<File[]>([]);
   const [isImageVisible, setIsImageVisible] = useState<boolean[]>([]);
-  const [remoteImages] = useState<string[]>(props.remoteImages);
+  const [remoteImages] = useState<string[]>(props.remoteImages ?? []);
   const [nftImages, setNftImages] = useState<string[]>([]);
   const [isDragged, setIsDragged] = useState<boolean[]>([]);
   const [isDraggedNft, setIsDraggedNft] = useState<boolean[]>([]);
