@@ -5,7 +5,7 @@ export const LoginArea = () => {
   return (
     <div className="w-1/2 h-3/5 bg-yellow-100 bg-opacity-90 rounded-3xl p-10 flex flex-col justify-center items-center">
       <h1 className="text-3xl p-5 text-yellow-500">ログインページ</h1>
-      <form action="/login" method="post">
+      <form action="/api/v1/auth/sign_in" method="post">
         <div className="flex items-end flex-col">
         <label className="text-xl">
             メールアドレス
