@@ -8,7 +8,7 @@ export const Home = () => {
   const location = useLocation();
   const remoteImages = location.state as string[];
 
-  return storage.getToken() ? (
+  return storage.getToken() || storage.getGuest() ? (
     <>
       <Header />
       <div className="flex">
