@@ -14,22 +14,14 @@
   top: 18px;
 }
 
-.top-152 {
-  top: 152px;
-}
-
-.top-298 {
-  top: 298px;
-}
-
-.top-445 {
-  top: 445px;
-}
-
-.top-592 {
-  top: 592px;
-}
-
 .left-95 {
   left: 95px;
+}
+
+.top-minus {
+  top: -173px;
+}
+
+.border-14 {
+  border-width: 14px;
 }
