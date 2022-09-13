@@ -7,7 +7,7 @@ function authRequestInterceptor(config: AxiosRequestConfig) {
 }
 
 export const axios = Axios.create({
-  baseURL: "https://hogehoge",
+  baseURL: "https://virtual-background-creator.herokuapp.com/api/v1",
 });
 
 axios.interceptors.request.use(authRequestInterceptor);

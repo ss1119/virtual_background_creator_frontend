@@ -4,59 +4,76 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import Draggable from "react-draggable";
 import { useState } from "react";
 import { GetNFTButton } from "../parts/GetNFTButton";
+import { axios } from "../../lib/axios";
 
-type Props = {
-  images: File[];
-  visible: boolean[];
-  setImages: React.Dispatch<React.SetStateAction<File[]>>;
-  setVisible: React.Dispatch<React.SetStateAction<boolean[]>>;
-};
-
-export const UploadArea = (props: Props) => {
+export const UploadArea = () => {
   const inputId = Math.random().toString(32).substring(2);
+  const [images, setImages] = useState<File[]>([]);
+  const [isImageVisible, setIsImageVisible] = useState<boolean[]>([]);
+  const [nftImages, setNftImages] = useState<string[]>([]);
   const [isDragged, setIsDragged] = useState<boolean[]>([]);
+  const [isDraggedNft, setIsDraggedNft] = useState<boolean[]>([]);
 
   const handleOnAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-    props.setImages([...props.images, ...e.target.files]);
-    props.setVisible([...props.visible, false]);
+    setImages([...images, ...e.target.files]);
+    setIsImageVisible([...isImageVisible, false]);
     setIsDragged([...isDragged, false]);
   };
 
   const handleOnRemoveImage = (index: number) => {
-    const newImages = [...props.images];
+    const newImages = [...images];
     newImages.splice(index, 1);
-    const newVisible = [...props.visible];
-    newVisible.splice(index, 1);
+    const newIsImageVisible = [...isImageVisible];
+    newIsImageVisible.splice(index, 1);
     const newIsDragged = [...isDragged];
     newIsDragged.splice(index, 1);
-    props.setImages(newImages);
-    props.setVisible(newVisible);
+    setImages(newImages);
+    setIsImageVisible(newIsImageVisible);
     setIsDragged(newIsDragged);
   };
 
-  const handleOnClickImage = (i: number) => {
+  const handleOnClickImage = (index: number) => {
     const target = document.getElementById("target");
-    const image = document.getElementById(i.toString());
+    const image = document.getElementById("image" + index.toString());
     if (image) {
       target?.appendChild(image);
     }
     const newIsDragged = [...isDragged];
-    newIsDragged[i] = true;
+    newIsDragged[index] = true;
     setIsDragged(newIsDragged);
-    const newVisible = [...props.visible];
-    newVisible[i] = true;
-    props.setVisible(newVisible);
+    const newIsImageVisible = [...isImageVisible];
+    newIsImageVisible[index] = true;
+    setIsImageVisible(newIsImageVisible);
   };
+
+  const handleOnClickNftImage = (index: number) => {
+    const target = document.getElementById("target");
+    const nft = document.getElementById("nft" + index.toString());
+    if (nft) {
+      target?.appendChild(nft);
+    }
+    const newIsDraggedNft = [...isDraggedNft];
+    newIsDraggedNft[index] = true;
+    setIsDraggedNft(newIsDraggedNft);
+  };
+
+  const onClickNFTButton = () => {
+    axios.get("/nft").then((res) => {
+      setNftImages(res.data.data);
+    });
+  };
+
+  console.log(nftImages);
 
   return (
     <div className="w-1/3 pb-7">
       <div className="w-full h-93 t-4 border-14 border-yellow-500 bg-cover bg-[url('img/board.png')]">
         <div className="flex flex-wrap pl-4">
-          {props.images.map((image, i) => (
+          {images.map((image, i) => (
             <Draggable>
               <div
-                id={i.toString()}
+                id={"image" + i.toString()}
                 key={i}
                 className={
                   isDragged[i]
@@ -64,7 +81,7 @@ export const UploadArea = (props: Props) => {
                     : "relative w-28 mr-8 mb-5"
                 }
               >
-                {!props.visible[i] ? (
+                {!isImageVisible[i] ? (
                   <IconButton
                     className="absolute top-18 left-95"
                     aria-label="delete image"
@@ -75,7 +92,7 @@ export const UploadArea = (props: Props) => {
                 ) : null}
                 <img
                   className={
-                    props.visible[i] ? "w-full mt-10 z-10" : "w-full z-10"
+                    isImageVisible[i] ? "w-full mt-10 z-10" : "w-full z-10"
                   }
                   onClick={() => {
                     handleOnClickImage(i);
@@ -85,6 +102,29 @@ export const UploadArea = (props: Props) => {
               </div>
             </Draggable>
           ))}
+          {nftImages.length !== 0
+            ? nftImages.map((image, i) => (
+                <Draggable>
+                  <div
+                    id={"nft" + i.toString()}
+                    key={i}
+                    className={
+                      isDraggedNft[i]
+                        ? "absolute w-28 top-minus"
+                        : "relative w-28 mr-8 mb-5"
+                    }
+                  >
+                    <img
+                      className="w-full mt-10 z-10"
+                      onClick={() => {
+                        handleOnClickNftImage(i);
+                      }}
+                      src={image}
+                    />
+                  </div>
+                </Draggable>
+              ))
+            : null}
         </div>
       </div>
       <div className="flex justify-center">
@@ -101,7 +141,7 @@ export const UploadArea = (props: Props) => {
             }
           />
         </label>
-        <GetNFTButton />
+        <GetNFTButton onClick={onClickNFTButton} />
       </div>
     </div>
   );
