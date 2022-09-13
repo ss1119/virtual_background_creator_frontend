@@ -1,6 +1,5 @@
 import { LoginButton } from "../parts/LoginButton";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { axios } from "../../lib/axios";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -32,7 +31,7 @@ export const LoginArea = () => {
         email: data.email,
         password: data.password,
       })
-      .then(async (res) => {
+      .then(async () => {
         await axios.get("/pictures").then((res) => {
           navigate("/", { state: res.data.data });
         });
@@ -86,7 +85,11 @@ export const LoginArea = () => {
         </Link>
       </div>
       <div className="py-2">
-        <Link to={`/`} className="text-gray-400 text-base my-6">
+        <Link
+          to={`/`}
+          className="text-gray-400 text-base my-6"
+          onClick={() => storage.setGuest("guest")}
+        >
           ログインせずに進める
         </Link>
       </div>
