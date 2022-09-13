@@ -1,5 +1,4 @@
 import IconButton from "@mui/material/IconButton";
-import { useState } from "react";
 import { UploadButton } from "../parts/UploadButton";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Draggable from "react-draggable";
