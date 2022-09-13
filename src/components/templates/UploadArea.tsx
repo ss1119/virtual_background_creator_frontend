@@ -1,21 +1,32 @@
 import IconButton from "@mui/material/IconButton";
-import { useState } from "react";
 import { UploadButton } from "../parts/UploadButton";
 import CancelIcon from "@mui/icons-material/Cancel";
+import Draggable from "react-draggable";
 
-export const UploadArea = () => {
-  const [images, setImages] = useState<File[]>([]);
+type Props = {
+  images: File[];
+  visible: boolean[];
+  isClickDownload: boolean;
+  setImages: React.Dispatch<React.SetStateAction<File[]>>;
+  setVisible: React.Dispatch<React.SetStateAction<boolean[]>>;
+};
+
+export const UploadArea = (props: Props) => {
   const inputId = Math.random().toString(32).substring(2);
 
   const handleOnAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-    setImages([...images, ...e.target.files]);
+    props.setImages([...props.images, ...e.target.files]);
+    props.setVisible([...props.visible, false]);
   };
 
   const handleOnRemoveImage = (index: number) => {
-    const newImages = [...images];
+    const newImages = [...props.images];
     newImages.splice(index, 1);
-    setImages(newImages);
+    const newVisible = [...props.visible];
+    newVisible.splice(index, 1);
+    props.setImages(newImages);
+    props.setVisible(newVisible);
   };
 
   return (
@@ -26,17 +37,24 @@ export const UploadArea = () => {
         <div className="absolute top-445 w-31 border-8 rounded border-yellow-600" />
         <div className="absolute top-592 w-31 border-8 rounded border-yellow-600" />
         <div className="flex flex-wrap pl-4">
-          {images.map((image, i) => (
-            <div key={i} className="relative w-1/4 mr-8 mb-5">
-              <IconButton
-                className="absolute top-18 left-95"
-                aria-label="delete image"
-                onClick={() => handleOnRemoveImage(i)}
-              >
-                <CancelIcon />
-              </IconButton>
-              <img className="w-full" src={URL.createObjectURL(image)} />
-            </div>
+          {props.images.map((image, i) => (
+            <Draggable>
+              <div key={i} className="relative w-1/4 mr-8 mb-5">
+                {!props.isClickDownload ? (
+                  <IconButton
+                    className="absolute top-18 left-95"
+                    aria-label="delete image"
+                    onClick={() => handleOnRemoveImage(i)}
+                  >
+                    <CancelIcon />
+                  </IconButton>
+                ) : null}
+                <img
+                  className={props.isClickDownload ? "w-full mt-10" : "w-full"}
+                  src={URL.createObjectURL(image)}
+                />
+              </div>
+            </Draggable>
           ))}
         </div>
       </div>
