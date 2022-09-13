@@ -23,7 +23,7 @@ export const EditArea = (props: Props) => {
                 body.push(e.target!.result);
               };
             });
-            await axios.post("/pictures", { body: body });
+            await axios.post("/pictures", { binary_data: body });
             exportAsImage(exportRef.current, "virtual-background");
           }}
         />
