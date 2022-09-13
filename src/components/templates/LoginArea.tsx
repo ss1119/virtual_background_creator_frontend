@@ -33,7 +33,6 @@ export const LoginArea = () => {
         password: data.password,
       })
       .then(async (res) => {
-        await storage.setToken("hogehoge");
         await axios.get("/pictures").then((res) => {
           navigate("/", { state: res.data.data });
         });
