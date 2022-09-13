@@ -36,9 +36,22 @@ export const SignupArea = () => {
         password: data.password,
       })
       .then(async (res) => {
-        console.log(res);
+        // header情報を保存
+        storage.setToken("token");
+        storage.setClient("client");
+        storage.setUid("uid");
         await axios
-          .post("/wallet_address", { wallet_address: data.wallet_address })
+          .post(
+            "/wallet_address",
+            { wallet_address: data.wallet_address },
+            {
+              headers: {
+                "access-token": "hogehoge",
+                client: "client",
+                uid: "uid",
+              },
+            }
+          )
           .then(() => {
             navigate("/");
           });

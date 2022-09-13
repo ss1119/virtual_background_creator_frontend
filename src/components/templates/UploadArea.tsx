@@ -5,6 +5,7 @@ import Draggable from "react-draggable";
 import { useState } from "react";
 import { GetNFTButton } from "../parts/GetNFTButton";
 import { axios } from "../../lib/axios";
+import storage from "../../utils/storage";
 
 type Props = {
   remoteImages: string[];
@@ -76,9 +77,20 @@ export const UploadArea = (props: Props) => {
   };
 
   const onClickNFTButton = async () => {
-    await axios.get("/nfts").then((res) => {
-      setNftImages(res.data.data);
-    });
+    const token = storage.getToken();
+    const client = storage.getClient();
+    const uid = storage.getUid();
+    await axios
+      .get("/nfts", {
+        headers: {
+          "access-token": token,
+          client: client ?? "",
+          uid: uid ?? "",
+        },
+      })
+      .then((res) => {
+        setNftImages(res.data.data);
+      });
   };
 
   return (
