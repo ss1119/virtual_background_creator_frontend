@@ -58,8 +58,8 @@ export const UploadArea = () => {
     setIsDraggedNft(newIsDraggedNft);
   };
 
-  const onClickNFTButton = () => {
-    axios.get("/nft").then((res) => {
+  const onClickNFTButton = async () => {
+    await axios.get("/nfts").then((res) => {
       setNftImages(res.data.data);
     });
   };
