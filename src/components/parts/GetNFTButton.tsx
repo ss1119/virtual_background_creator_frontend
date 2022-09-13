@@ -10,8 +10,8 @@ export const GetNFTButton = (props: Props) => {
       <button
         className={
           !storage.getToken()
-            ? "text-center mt-3 w-56 py-3 text-base rounded-md text-white bg-yellow-500 opacity-50"
-            : "text-center mt-3 w-56 py-3 text-base rounded-md text-white bg-yellow-500"
+            ? "text-center mt-8 w-56 py-3 text-base rounded-md text-white bg-yellow-500 opacity-50"
+            : "text-center mt-8 w-56 py-3 text-base rounded-md text-white bg-yellow-500"
         }
         onClick={() => props.onClick()}
         disabled={!storage.getToken()}
