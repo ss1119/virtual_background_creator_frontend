@@ -2,7 +2,11 @@ import { useRef } from "react";
 import exportAsImage from "../../lib/exportAsImage";
 import { DownloadButton } from "../parts/DownloadButton";
 
-export const EditArea = () => {
+type Props = {
+  images: File[];
+};
+
+export const EditArea = (props: Props) => {
   const exportRef: any = useRef();
 
   return (
@@ -10,6 +14,15 @@ export const EditArea = () => {
       <div className="w-full flex justify-end">
         <DownloadButton
           onClick={() => {
+            const body: any[] = [];
+            props.images.map((image) => {
+              const reader = new FileReader();
+              reader.readAsDataURL(image);
+              reader.onload = (e) => {
+                body.push(e.target!.result);
+              };
+            });
+            console.log(body);
             exportAsImage(exportRef.current, "virtual-background");
           }}
         />
