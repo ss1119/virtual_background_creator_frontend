@@ -18,6 +18,12 @@
   left: 95px;
 }
 
+.top-bg {
+  background-image: url("../public/top-bg.png");
+  background-size: cover;
+  background-position: center;
+}
+
 .top-minus {
   top: -173px;
 }
