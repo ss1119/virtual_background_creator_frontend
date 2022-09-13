@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { axios } from "../../lib/axios";
 import exportAsImage from "../../lib/exportAsImage";
 import { DownloadButton } from "../parts/DownloadButton";
 
@@ -13,7 +14,7 @@ export const EditArea = (props: Props) => {
     <div className="w-2/3 h-93">
       <div className="w-full flex justify-end">
         <DownloadButton
-          onClick={() => {
+          onClick={async () => {
             const body: any[] = [];
             props.images.map((image) => {
               const reader = new FileReader();
@@ -22,7 +23,7 @@ export const EditArea = (props: Props) => {
                 body.push(e.target!.result);
               };
             });
-            console.log(body);
+            await axios.post("/pictures", { body: body });
             exportAsImage(exportRef.current, "virtual-background");
           }}
         />
