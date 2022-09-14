@@ -110,8 +110,8 @@ export const UploadArea = (props: Props) => {
                     key={i}
                     className={
                       isDraggedRemote[i]
-                        ? "absolute w-28 top-minus"
-                        : "relative w-28 mr-8 mb-5"
+                        ? "absolute w-24 top-minus"
+                        : "relative w-24 mr-8 mb-5"
                     }
                   >
                     <img
@@ -133,8 +133,8 @@ export const UploadArea = (props: Props) => {
                     key={i}
                     className={
                       isDraggedNft[i]
-                        ? "absolute w-28 top-minus"
-                        : "relative w-28 mr-8 mb-5"
+                        ? "absolute w-24 top-minus left-minus"
+                        : "relative w-24 mr-8 mb-5"
                     }
                   >
                     <img
@@ -155,13 +155,13 @@ export const UploadArea = (props: Props) => {
                 key={i}
                 className={
                   isDragged[i]
-                    ? "absolute w-28 top-minus"
-                    : "relative w-28 mr-8 mb-5"
+                    ? "absolute w-24 top-minus"
+                    : "relative w-24 mr-8 mb-5"
                 }
               >
                 {!isImageVisible[i] ? (
                   <IconButton
-                    className="absolute top-18 left-95"
+                    className="absolute top-18 left-75"
                     aria-label="delete image"
                     onClick={() => handleOnRemoveImage(i)}
                   >
