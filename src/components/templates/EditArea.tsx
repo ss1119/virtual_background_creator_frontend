@@ -24,29 +24,34 @@ export const EditArea = (props: Props) => {
   return (
     <div className="w-2/3 h-93 my-5">
       <div className="w-full flex justify-between pr-10">
-      <img src="/assets/img-box.jpeg" className="w-1/5 ml-24 mb-3 z-minus"></img>
+        <img
+          src="/assets/img-box.jpeg"
+          className="w-1/5 ml-24 mb-3 z-minus"
+        ></img>
         <DownloadButton
           onClick={async () => {
-            const body: any[] = await Promise.all(
-              props.images.map(async (image: Blob) => {
-                const base64 = await getBase64(image);
-                return base64;
-              })
-            );
-            const token = storage.getToken();
-            const client = storage.getClient();
-            const uid = storage.getUid();
-            await axios.post(
-              "/pictures",
-              { binary_data: body },
-              {
-                headers: {
-                  "access-token": token,
-                  client: client ?? "",
-                  uid: uid ?? "",
-                },
-              }
-            );
+            if (!!storage.getToken()) {
+              const body: any[] = await Promise.all(
+                props.images.map(async (image: Blob) => {
+                  const base64 = await getBase64(image);
+                  return base64;
+                })
+              );
+              const token = storage.getToken();
+              const client = storage.getClient();
+              const uid = storage.getUid();
+              await axios.post(
+                "/pictures",
+                { binary_data: body },
+                {
+                  headers: {
+                    "access-token": token,
+                    client: client ?? "",
+                    uid: uid ?? "",
+                  },
+                }
+              );
+            }
             exportAsImage(exportRef.current, "virtual-background");
           }}
         />
