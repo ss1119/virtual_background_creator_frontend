@@ -14,8 +14,8 @@
   top: 18px;
 }
 
-.left-95 {
-  left: 95px;
+.left-75 {
+  left: 75px;
 }
 
 .top-bg {
@@ -25,7 +25,11 @@
 }
 
 .top-minus {
-  top: -173px;
+  top: -223px;
+}
+
+.left-minus {
+  left: -35px;
 }
 
 .border-14 {
