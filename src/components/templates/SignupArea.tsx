@@ -36,8 +36,22 @@ export const SignupArea = () => {
         password: data.password,
       })
       .then(async (res) => {
+        // header情報を保存
+        storage.setToken("token");
+        storage.setClient("client");
+        storage.setUid("uid");
         await axios
-          .post("/wallet_address", { wallet_address: data.wallet_address })
+          .post(
+            "/wallet_address",
+            { wallet_address: data.wallet_address },
+            {
+              headers: {
+                "access-token": "hogehoge",
+                client: "client",
+                uid: "uid",
+              },
+            }
+          )
           .then(() => {
             navigate("/");
           });
@@ -48,7 +62,7 @@ export const SignupArea = () => {
   });
 
   return (
-    <div className="w-1/2 h-3/5 bg-yellow-100 bg-opacity-90 rounded-3xl p-10 flex flex-col justify-center items-center">
+    <div className="w-1/2 h-4/5 bg-yellow-100 bg-opacity-90 rounded-3xl p-10 flex flex-col justify-center items-center">
       <h1 className="text-3xl p-5 text-yellow-500">新規会員登録ページ</h1>
       <form method="post" onSubmit={onSubmit}>
         <div className="flex items-end flex-col">
@@ -73,12 +87,13 @@ export const SignupArea = () => {
               type="password"
               className="m-3 px-4 py-1 rounded-3xl border border-yellow-500"
               {...register("password", {
-                required: true,
+                required: "パスワードは必ず指定してください。",
+                minLength: { value: 6, message: "パスワードは6文字以上です。" },
               })}
             />
             {errors.password && (
               <span className="flex justify-center text-red-700 text-sm">
-                パスワードは必ず指定してください。
+                {errors.password?.message}
               </span>
             )}
           </label>
