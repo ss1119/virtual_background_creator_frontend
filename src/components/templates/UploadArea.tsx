@@ -90,7 +90,11 @@ export const UploadArea = (props: Props) => {
         },
       })
       .then((res) => {
-        setNftImages(res.data.data);
+        if (res.data.data.length === 0) {
+          alert("NFT画像を所持していません。");
+        } else {
+          setNftImages(res.data.data);
+        }
       });
   };
 
