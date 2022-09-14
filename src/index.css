@@ -31,3 +31,7 @@
 .border-14 {
   border-width: 14px;
 }
+
+.z-minus {
+  z-index: -1;
+}
