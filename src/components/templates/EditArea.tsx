@@ -11,20 +11,28 @@ type Props = {
 export const EditArea = (props: Props) => {
   const exportRef: any = useRef();
 
+  const getBase64 = (image: Blob) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(image);
+    return new Promise((resolve) => {
+      reader.onload = (e) => {
+        resolve(e.target!.result);
+      };
+    });
+  };
+
   return (
     <div className="w-2/3 h-93 my-5">
       <div className="w-full flex justify-between pr-10">
         <img src="/assets/box.png" className="w-1/2 z-0 h-48"></img>
         <DownloadButton
           onClick={async () => {
-            const body: any[] = [];
-            props.images.map((image) => {
-              const reader = new FileReader();
-              reader.readAsDataURL(image);
-              reader.onload = (e) => {
-                body.push(e.target!.result);
-              };
-            });
+            const body: any[] = await Promise.all(
+              props.images.map(async (image: Blob) => {
+                const base64 = await getBase64(image);
+                return base64;
+              })
+            );
             const token = storage.getToken();
             const client = storage.getClient();
             const uid = storage.getUid();
