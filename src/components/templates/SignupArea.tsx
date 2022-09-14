@@ -37,18 +37,18 @@ export const SignupArea = () => {
       })
       .then(async (res) => {
         // header情報を保存
-        storage.setToken("token");
-        storage.setClient("client");
-        storage.setUid("uid");
+        storage.setToken(res.headers["access-token"]);
+        storage.setClient(res.headers["client"]);
+        storage.setUid(res.headers["uid"]);
         await axios
           .post(
             "/wallet_address",
             { wallet_address: data.wallet_address },
             {
               headers: {
-                "access-token": "hogehoge",
-                client: "client",
-                uid: "uid",
+                "access-token": res.headers["access-token"],
+                client: res.headers["client"],
+                uid: res.headers["uid"],
               },
             }
           )
