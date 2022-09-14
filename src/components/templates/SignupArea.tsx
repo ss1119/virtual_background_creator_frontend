@@ -36,7 +36,6 @@ export const SignupArea = () => {
         password: data.password,
       })
       .then(async (res) => {
-        console.log(res);
         await axios
           .post("/wallet_address", { wallet_address: data.wallet_address })
           .then(() => {

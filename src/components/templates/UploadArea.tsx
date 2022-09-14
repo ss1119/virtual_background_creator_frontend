@@ -7,12 +7,13 @@ import { GetNFTButton } from "../parts/GetNFTButton";
 import { axios } from "../../lib/axios";
 
 type Props = {
+  images: File[];
+  setImages: React.Dispatch<React.SetStateAction<File[]>>;
   remoteImages: string[];
 };
 
 export const UploadArea = (props: Props) => {
   const inputId = Math.random().toString(32).substring(2);
-  const [images, setImages] = useState<File[]>([]);
   const [isImageVisible, setIsImageVisible] = useState<boolean[]>([]);
   const [remoteImages] = useState<string[]>(props.remoteImages ?? []);
   const [nftImages, setNftImages] = useState<string[]>([]);
@@ -22,19 +23,19 @@ export const UploadArea = (props: Props) => {
 
   const handleOnAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-    setImages([...images, ...e.target.files]);
+    props.setImages([...props.images, ...e.target.files]);
     setIsImageVisible([...isImageVisible, false]);
     setIsDragged([...isDragged, false]);
   };
 
   const handleOnRemoveImage = (index: number) => {
-    const newImages = [...images];
+    const newImages = [...props.images];
     newImages.splice(index, 1);
     const newIsImageVisible = [...isImageVisible];
     newIsImageVisible.splice(index, 1);
     const newIsDragged = [...isDragged];
     newIsDragged.splice(index, 1);
-    setImages(newImages);
+    props.setImages(newImages);
     setIsImageVisible(newIsImageVisible);
     setIsDragged(newIsDragged);
   };
@@ -131,7 +132,7 @@ export const UploadArea = (props: Props) => {
                 </Draggable>
               ))
             : null}
-          {images.map((image, i) => (
+          {props.images.map((image, i) => (
             <Draggable>
               <div
                 id={"image" + i.toString()}
