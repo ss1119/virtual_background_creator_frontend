@@ -76,7 +76,7 @@ export const SignupArea = () => {
               })}
             />
             {errors.email && (
-              <span className="flex justify-center mb-4 text-red-700 text-sm">
+              <span className="flex justify-center text-red-700 text-sm">
                 メールアドレスは必ず指定してください。
               </span>
             )}
@@ -126,20 +126,16 @@ export const SignupArea = () => {
         </div>
         <SignupButton />
       </form>
-      <div className="py-2">
-        <Link to={`/login`} className="text-gray-400 text-base my-6">
+        <Link to={`/login`} className="text-gray-400 text-base mt-3">
           ログインする
         </Link>
-      </div>
-      <div className="py-2">
         <Link
           to={`/`}
-          className="text-gray-400 text-base my-6"
+          className="text-gray-400 text-base mt-3"
           onClick={() => storage.setGuest("guest")}
         >
           会員登録せずに進める
         </Link>
-      </div>
     </div>
   );
 };

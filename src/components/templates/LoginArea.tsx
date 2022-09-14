@@ -90,20 +90,18 @@ export const LoginArea = () => {
         </div>
         <LoginButton />
       </form>
-      <div className="py-2">
-        <Link to={`/signup`} className="text-gray-400 text-base my-6">
+
+        <Link to={`/signup`} className="text-gray-400 text-base mt-3">
           会員登録する
         </Link>
-      </div>
-      <div className="py-2">
         <Link
           to={`/`}
-          className="text-gray-400 text-base my-6"
+          className="text-gray-400 text-base mt-3"
           onClick={() => storage.setGuest("guest")}
         >
           ログインせずに進める
         </Link>
-      </div>
+
     </div>
   );
 };

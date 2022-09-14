@@ -24,7 +24,7 @@ export const EditArea = (props: Props) => {
   return (
     <div className="w-2/3 h-93 my-5">
       <div className="w-full flex justify-between pr-10">
-        <img src="/assets/box.png" className="w-1/2 z-0 h-48"></img>
+      <img src="/assets/img-box.jpeg" className="w-1/5 ml-24 mb-3 z-minus"></img>
         <DownloadButton
           onClick={async () => {
             const body: any[] = await Promise.all(

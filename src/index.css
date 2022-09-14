@@ -25,13 +25,17 @@
 }
 
 .top-minus {
-  top: -223px;
+  top: -183px;
 }
 
 .left-minus {
-  left: -35px;
+  left: 8px;
 }
 
 .border-14 {
   border-width: 14px;
+}
+
+.z-minus {
+  z-index: -1;
 }
