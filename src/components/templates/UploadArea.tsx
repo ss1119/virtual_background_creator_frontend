@@ -5,14 +5,16 @@ import Draggable from "react-draggable";
 import { useState } from "react";
 import { GetNFTButton } from "../parts/GetNFTButton";
 import { axios } from "../../lib/axios";
+import storage from "../../utils/storage";
 
 type Props = {
+  images: File[];
+  setImages: React.Dispatch<React.SetStateAction<File[]>>;
   remoteImages: string[];
 };
 
 export const UploadArea = (props: Props) => {
   const inputId = Math.random().toString(32).substring(2);
-  const [images, setImages] = useState<File[]>([]);
   const [isImageVisible, setIsImageVisible] = useState<boolean[]>([]);
   const [remoteImages] = useState<string[]>(props.remoteImages ?? []);
   const [nftImages, setNftImages] = useState<string[]>([]);
@@ -22,19 +24,19 @@ export const UploadArea = (props: Props) => {
 
   const handleOnAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-    setImages([...images, ...e.target.files]);
+    props.setImages([...props.images, ...e.target.files]);
     setIsImageVisible([...isImageVisible, false]);
     setIsDragged([...isDragged, false]);
   };
 
   const handleOnRemoveImage = (index: number) => {
-    const newImages = [...images];
+    const newImages = [...props.images];
     newImages.splice(index, 1);
     const newIsImageVisible = [...isImageVisible];
     newIsImageVisible.splice(index, 1);
     const newIsDragged = [...isDragged];
     newIsDragged.splice(index, 1);
-    setImages(newImages);
+    props.setImages(newImages);
     setIsImageVisible(newIsImageVisible);
     setIsDragged(newIsDragged);
   };
@@ -76,9 +78,24 @@ export const UploadArea = (props: Props) => {
   };
 
   const onClickNFTButton = async () => {
-    await axios.get("/nfts").then((res) => {
-      setNftImages(res.data.data);
-    });
+    const token = storage.getToken();
+    const client = storage.getClient();
+    const uid = storage.getUid();
+    await axios
+      .get("/nfts", {
+        headers: {
+          "access-token": token,
+          client: client ?? "",
+          uid: uid ?? "",
+        },
+      })
+      .then((res) => {
+        if (res.data.data.length === 0) {
+          alert("NFT画像を所持していません。");
+        } else {
+          setNftImages(res.data.data);
+        }
+      });
   };
 
   return (
@@ -93,8 +110,8 @@ export const UploadArea = (props: Props) => {
                     key={i}
                     className={
                       isDraggedRemote[i]
-                        ? "absolute w-28 top-minus"
-                        : "relative w-28 mr-8 mb-5"
+                        ? "absolute w-24 top-minus"
+                        : "relative w-24 mr-8 mb-5"
                     }
                   >
                     <img
@@ -116,8 +133,8 @@ export const UploadArea = (props: Props) => {
                     key={i}
                     className={
                       isDraggedNft[i]
-                        ? "absolute w-28 top-minus"
-                        : "relative w-28 mr-8 mb-5"
+                        ? "absolute w-24 top-minus left-minus"
+                        : "relative w-24 mr-8 mb-5"
                     }
                   >
                     <img
@@ -131,20 +148,20 @@ export const UploadArea = (props: Props) => {
                 </Draggable>
               ))
             : null}
-          {images.map((image, i) => (
+          {props.images.map((image, i) => (
             <Draggable>
               <div
                 id={"image" + i.toString()}
                 key={i}
                 className={
                   isDragged[i]
-                    ? "absolute w-28 top-minus"
-                    : "relative w-28 mr-8 mb-5"
+                    ? "absolute w-24 top-minus"
+                    : "relative w-24 mr-8 mb-5"
                 }
               >
                 {!isImageVisible[i] ? (
                   <IconButton
-                    className="absolute top-18 left-95"
+                    className="absolute top-18 left-75"
                     aria-label="delete image"
                     onClick={() => handleOnRemoveImage(i)}
                   >

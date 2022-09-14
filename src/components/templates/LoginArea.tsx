@@ -32,9 +32,20 @@ export const LoginArea = () => {
         password: data.password,
       })
       .then(async () => {
-        await axios.get("/pictures").then((res) => {
-          navigate("/", { state: res.data.data });
-        });
+        const token = storage.getToken();
+        const client = storage.getClient();
+        const uid = storage.getUid();
+        await axios
+          .get("/pictures", {
+            headers: {
+              "access-token": token,
+              client: client ?? "",
+              uid: uid ?? "",
+            },
+          })
+          .then((res) => {
+            navigate("/", { state: res.data.data });
+          });
       })
       .catch(() => {
         alert("メールアドレスまたはパスワードが間違っています。");
