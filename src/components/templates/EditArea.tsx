@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { axios } from "../../lib/axios";
 import exportAsImage from "../../lib/exportAsImage";
+import storage from "../../utils/storage";
 import { DownloadButton } from "../parts/DownloadButton";
 
 type Props = {
@@ -23,7 +24,20 @@ export const EditArea = (props: Props) => {
                 body.push(e.target!.result);
               };
             });
-            await axios.post("/pictures", { binary_data: body });
+            const token = storage.getToken();
+            const client = storage.getClient();
+            const uid = storage.getUid();
+            await axios.post(
+              "/pictures",
+              { binary_data: body },
+              {
+                headers: {
+                  "access-token": token,
+                  client: client ?? "",
+                  uid: uid ?? "",
+                },
+              }
+            );
             exportAsImage(exportRef.current, "virtual-background");
           }}
         />
